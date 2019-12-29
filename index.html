@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="assets/css/bootstrap.css">
+    <link rel="stylesheet" href="style_index.css">
+    <script src="assets/js/jquery.js"></script>
+    <script src="assets/js/popper.js"></script>
+    <script src="assets/js/bootstrap.bundle.js"></script>
+    <script src="assets/js/sweetalert2.all.js"></script>
+    <script src="assets/js/script.js"></script>
+    <title>Penyewaan Mobil v2</title>
+</head>
+
+<body onload="show()">
+    <!-- Jumbotron -->
+    <div class="jumbotron alert-primary text-center shadow-sm p-3 mb-3">
+        <div class="container">
+            <h3 class="display-4 text-center">Mahardika Mobil</h3>
+            <p class="lead text-center">Melayani Sepenuh Hati</p>
+        </div>
+    </div>
+    <!-- Akhir Jumbotron -->
+    <!-- Container -->
+    <div class="container">
+        <div class="row justify-content-md-center">
+            <div class="col-6">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title text-center">Data Penyewa</h5>
+                        <h6 class="card-subtitle mb-2 text-muted text-center">Masukkan data diri Anda</h6>
+                        <input type="text" class="form-control" id="namapenyewa" placeholder="Nama Lengkap" data-toggle="tooltip" data-placement="right" title="Isikan Nama Anda sesuai KTP">
+                        <input type="text" class="form-control mt-1" id="NIK" placeholder="NIK" data-toggle="tooltip" data-placement="right" title="Isikan Nomor KTP Anda">
+                        <p class="card-text">Silahkan memilih mobil yang akan disewa dengan cara klik tombol <span
+                                class="badge badge-primary">Sewa Sekarang</span>
+                            pada menu mobil yang ada. Lalu klik tombol di bawah ini untuk proses.</p>
+                        <button class="btn btn-success" style="width: 100%;" data-toggle="modal"
+                            data-target="#prosesModal" onclick="proses()">Proses</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Modal -->
+        <div class="modal fade" id="prosesModal" tabindex="-1" role="dialog" aria-labelledby="prosesModalLabel"
+            aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="prosesModalLabel">Proses Penyewaan Mobil</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <label>Nama Penyewa : </label>
+                        <input type="text" class="form-control" id="namapenyewa_final" disabled>
+                        <label>Nomor Identitas : </label>
+                        <input type="text" class="form-control" id="noktp_final" disabled>
+                        <label>Total Biaya Sewa : </label>
+                        <div class="input-group mb-3">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text">Rp.</span>
+                            </div>
+                            <input type="text" class="form-control" id="txtbiayatotal" disabled>
+                            <div class="input-group-append">
+                                <span class="input-group-text">.00</span>
+                            </div>
+                        </div>
+                        <label>Mobil yang disewa :</label>
+                        <ul id="listmobil">
+                            <li>???</li>
+                        </ul>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-success" data-dismiss="modal" onclick="sewa()">Sewa</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Akhir Modal -->
+        <!-- Baris 1 -->
+        <div class="row justify-content-md-center mt-5">
+            <div class="col col-4 col-sm-4 col-md-4 col-lg-4 d-flex align-items-stretch">
+                <div class="card" style="width: 18rem;">
+                    <img src="assets/img/avanza.jpg" class="card-img-top" alt="mobil1">
+                    <div class="card-body">
+                        <h5 id="merk0" class="card-title">?</h5>
+                        <p class="card-text">Mobil keluarga. Cocok untuk bepergian ke luar kota.</p>
+                        <button class="btn btn-primary" onclick="pesan(0,'cancel0')">Sewa Sekarang</button>
+                        <button class="btn btn-danger" id="cancel0" onclick="batalpesan(0,'cancel0')" hidden>Batal Sewa</button>
+                    </div>
+                    <div class="card-footer text-muted">
+                        tersedia <label id="stok0">?</label> unit @ <label id="harga0">?</label>
+                    </div>
+                </div>
+            </div>
+            <div class="col col-4 col-sm-4 col-md-4 col-lg-4 d-flex align-items-stretch">
+                <div class="card" style="width: 18rem;">
+                    <img src="assets/img/xenia.jpg" class="card-img-top" alt="...">
+                    <div class="card-body">
+                        <h5 id="merk1" class="card-title">?</h5>
+                        <p class="card-text">Mobil keluarga. Cocok untuk mudik dan rekreasi.</p>
+                        <button class="btn btn-primary" onclick="pesan()">Sewa Sekarang</button>
+                    </div>
+                    <div class="card-footer text-muted">
+                        tersedia <label id="stok1">?</label> unit @ <label id="harga1">?</label>
+                    </div>
+                </div>
+            </div>
+            <div class="col col-4 col-sm-4 col-md-4 col-lg-4 d-flex align-items-stretch">
+                <div class="card" style="width: 18rem;">
+                    <img src="assets/img/ertiga.jpg" class="card-img-top" alt="...">
+                    <div class="card-body">
+                        <h5 id="merk2" class="card-title">?</h5>
+                        <p class="card-text">Mobil keluarga. Handal dan nyaman untuk segala trek jalan.</p>
+                        <button class="btn btn-primary" onclick="pesan()">Sewa Sekarang</button>
+                    </div>
+                    <div class="card-footer text-muted">
+                        tersedia <label id="stok2">?</label> unit @ <label id="harga2">?</label>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Akhir Baris 1 -->
+        <!-- Baris 2 -->
+        <div class="row justify-content-md-center mt-5">
+            <div class="col col-4 col-sm-4 col-md-4 col-lg-4 d-flex align-items-stretch">
+                <div class="card" style="width: 18rem;">
+                    <img src="assets/img/jazz.jpg" class="card-img-top" alt="...">
+                    <div class="card-body">
+                        <h5 id="merk3" class="card-title">?</h5>
+                        <p class="card-text">Minimalis dan bergaya. Cocok untuk berdua.</p>
+                        <button class="btn btn-primary" onclick="pesan()">Sewa Sekarang</button>
+                    </div>
+                    <div class="card-footer text-muted">
+                        tersedia <label id="stok3">?</label> unit @ <label id="harga3">?</label>
+                    </div>
+                </div>
+            </div>
+            <div class="col col-4 col-sm-4 col-md-4 col-lg-4 d-flex align-items-stretch">
+                <div class="card" style="width: 18rem;">
+                    <img src="assets/img/yaris.jpg" class="card-img-top" alt="...">
+                    <div class="card-body">
+                        <h5 id="merk4" class="card-title">?</h5>
+                        <p class="card-text">Elegan dan minimalis. Nyaman dipandang dan dikendarai.</p>
+                        <button class="btn btn-primary" onclick="pesan()">Sewa Sekarang</button>
+                    </div>
+                    <div class="card-footer text-muted">
+                        tersedia <label id="stok4">?</label> unit @ <label id="harga4">?</label>
+                    </div>
+                </div>
+            </div>
+            <div class="col col-4 col-sm-4 col-md-4 col-lg-4 d-flex align-items-stretch">
+                <div class="card" style="width: 18rem;">
+                    <img src="assets/img/innova.jpg" class="card-img-top" alt="...">
+                    <div class="card-body">
+                        <h5 id="merk5" class="card-title">Kijang Innova</h5>
+                        <p class="card-text">Mobil keluarga. Nyaman, aman, dan tangguh.</p>
+                        <button class="btn btn-primary" onclick="pesan()">Sewa Sekarang</button>
+                    </div>
+                    <div class="card-footer text-muted">
+                        tersedia <label id="stok5">?</label> unit @ <label id="harga5">?</label>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Akhir Baris 2 -->
+        <!-- Baris 3 -->
+        <div class="row justify-content-md-center mt-5">
+            <div class="col col-4 col-sm-4 col-md-4 col-lg-4 d-flex align-items-stretch">
+                <div class="card" style="width: 18rem;">
+                    <img src="assets/img/datsun.jpg" class="card-img-top" alt="...">
+                    <div class="card-body">
+                        <h5 id="merk6" class="card-title">?</h5>
+                        <p class="card-text">Desain keren, nyaman untuk berdua dan keluarga.</p>
+                        <button class="btn btn-primary" onclick="pesan()">Sewa Sekarang</button>
+                    </div>
+                    <div class="card-footer text-muted">
+                        tersedia <label id="stok6">?</label> unit @ <label id="harga6">?</label>
+                    </div>
+                </div>
+            </div>
+            <div class="col col-4 col-sm-4 col-md-4 col-lg-4 d-flex align-items-stretch">
+                <div class="card" style="width: 18rem;">
+                    <img src="assets/img/evo.jpg" class="card-img-top" alt="...">
+                    <div class="card-body">
+                        <h5 id="merk7" class="card-title">?</h5>
+                        <p class="card-text">Mobil sport dengan peforma yang tidak diragukan</p>
+                        <button class="btn btn-primary" onclick="pesan()">Sewa Sekarang</button>
+                    </div>
+                    <div class="card-footer text-muted">
+                        tersedia <label id="stok7">?</label> unit @ <label id="harga7">?</label>
+                    </div>
+                </div>
+            </div>
+            <div class="col col-4 col-sm-4 col-md-4 col-lg-4 d-flex align-items-stretch">
+                <div class="card" style="width: 18rem;">
+                    <img src="assets/img/pajero.jpg" class="card-img-top" alt="...">
+                    <div class="card-body">
+                        <h5 id="merk8" class="card-title">Pajero Sport</h5>
+                        <p class="card-text">SUV handal dengan desain keren dan nyaman. </p>
+                        <button class="btn btn-primary" onclick="pesan()">Sewa Sekarang</button>
+                    </div>
+                    <div class="card-footer text-muted">
+                        tersedia <label id="stok8">?</label> unit @ <label id="harga8">?</label>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Akhir Baris 3 -->
+        <!-- Baris 4 -->
+        <div class="row justify-content-md-center mt-5">
+            <div class="col col-4 col-sm-4 col-md-4 col-lg-4 d-flex align-items-stretch">
+                <div class="card" style="width: 18rem;">
+                    <img src="assets/img/mazda.jpg" class="card-img-top" alt="...">
+                    <div class="card-body">
+                        <h5 id="merk9" class="card-title">?</h5>
+                        <p class="card-text">Mobil keluarga dengan peforma tinggi.</p>
+                        <button class="btn btn-primary" onclick="pesan()">Sewa Sekarang</button>
+                    </div>
+                    <div class="card-footer text-muted">
+                        tersedia <label id="stok9">?</label> unit @ <label id="harga9">?</label>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Akhir Baris 4 -->
+    </div>
+    <script>
+        $(document).ready(function(){
+            $('[data-toggle="tooltip"]').tooltip();
+        });
+    </script>
+</body>
+
+</html>
